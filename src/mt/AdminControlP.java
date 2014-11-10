@@ -1,7 +1,12 @@
 package mt;
 
 import java.awt.*;
+
 import javax.swing.*;
+import javax.swing.border.Border;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AdminControlP{
 
@@ -20,7 +25,7 @@ public class AdminControlP{
 	private void initialize() 
 	{
 		frame = new JFrame();
-		frame.setBounds(100, 100, 500, 338);
+		frame.setBounds(100, 100, 540, 338);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
@@ -29,52 +34,44 @@ public class AdminControlP{
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JTree tree = new JTree();
-		tree.setBounds(0, 0, 166, 292);
-		panel.add(tree);
+		JTree treeView = new JTree();
+		treeView.setBounds(0, 0, 180, 292);
+		panel.add(treeView);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(176, 8, 144, 48);
-		panel.add(textArea);
+		JTextArea userId = new JTextArea();
+		userId.setBounds(200, 8, 144, 48);
+		panel.add(userId);
 		
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setBounds(176, 67, 144, 48);
-		panel.add(textArea_1);
+		JTextArea groupId = new JTextArea();
+		groupId.setBounds(200, 67, 144, 48);
+		panel.add(groupId);
 		
-		Button button = new Button("Show User Total");
-		button.setBackground(Color.WHITE);
-		button.setBounds(172, 217, 144, 33);
-		panel.add(button);
+		JButton btnAddUser = new JButton("Add User");
+		btnAddUser.setBounds(364, 8, 144, 48);
+		panel.add(btnAddUser);
 		
-		Button button_1 = new Button("Show Group Total");
-		button_1.setBackground(Color.WHITE);
-		button_1.setBounds(330, 217, 144, 33);
-		panel.add(button_1);
+		JButton btnAddGroup = new JButton("Add Group");
+		btnAddGroup.setBounds(364, 67, 144, 48);
+		panel.add(btnAddGroup);
 		
-		Button button_2 = new Button("Show Message Total");
-		button_2.setBackground(Color.WHITE);
-		button_2.setBounds(172, 256, 144, 36);
-		panel.add(button_2);
+		JButton btnOpenUserView = new JButton("Open User View");
+		btnOpenUserView.setBounds(200, 126, 308, 37);
+		panel.add(btnOpenUserView);
 		
-		Button button_3 = new Button("Show Positive Percentage");
-		button_3.setForeground(Color.BLACK);
-		button_3.setBackground(Color.WHITE);
-		button_3.setBounds(330, 256, 144, 36);
-		panel.add(button_3);
+		JButton btnShowUserTotal = new JButton("Show User Total");
+		btnShowUserTotal.setBounds(190, 217, 154, 33);
+		panel.add(btnShowUserTotal);
 		
-		Button button_4 = new Button("Add User");
-		button_4.setBackground(Color.WHITE);
-		button_4.setBounds(327, 12, 147, 44);
-		panel.add(button_4);
+		JButton btnShowGroupTotal = new JButton("Show Group Total");
+		btnShowGroupTotal.setBounds(364, 217, 154, 33);
+		panel.add(btnShowGroupTotal);
 		
-		Button button_5 = new Button("Add Group");
-		button_5.setBackground(Color.WHITE);
-		button_5.setBounds(330, 67, 144, 48);
-		panel.add(button_5);
+		JButton btnShowMessagetotal = new JButton("Show MessageTotal");
+		btnShowMessagetotal.setBounds(190, 259, 154, 33);
+		panel.add(btnShowMessagetotal);
 		
-		Button button_6 = new Button("Open User View");
-		button_6.setBackground(Color.WHITE);
-		button_6.setBounds(176, 121, 298, 35);
-		panel.add(button_6);
+		JButton btnShowPositivePercentage = new JButton("Show Positive Percentage");
+		btnShowPositivePercentage.setBounds(364, 261, 154, 33);
+		panel.add(btnShowPositivePercentage);
 	}
 }

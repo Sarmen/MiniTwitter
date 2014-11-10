@@ -15,6 +15,7 @@ public class Driver
 					AdminControlP window = new AdminControlP();
 					window.frame.setVisible(true);
 					window.frame.setTitle("Mini Twitter");
+					
 				} 
 				catch (Exception e) 
 				{
@@ -22,5 +23,6 @@ public class Driver
 				}
 			}
 		});
+		
 	}
 }
