@@ -1,11 +1,29 @@
 package mt;
+
+import javax.swing.JFrame;
+
 /*
  * Sarmen Khodjasarian
  */
 public class Account 
 {
 	private static Account instance = null;
-	private NodeComponet root = new Group("Root");
+	private Group root;
+	public JFrame frame;
+	
+	private Account()
+	{
+		root = new Group("Root");
+		try 
+		{
+			frame = new AdminControlGui(root);
+			frame.setVisible(true);
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
 
 	/*
 	 * implemented the lazy Singletons Pattern
@@ -27,6 +45,13 @@ public class Account
 		return root;
 	}
 	
+	public User getLastUpdated()
+	{
+		LastUserUpdatedVisitor luuv = new LastUserUpdatedVisitor();
+		root.accept(luuv);
+		return luuv.getLastUser();
+		
+	}
 	/*
 	 * Using the Visitor pattern to get the user count
 	 */

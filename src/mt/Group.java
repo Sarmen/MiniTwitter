@@ -8,23 +8,27 @@ import java.util.List;
 
 public class Group implements NodeComponet 
 {
-	private List<NodeComponet> user = new ArrayList<NodeComponet>(); 
+	private ArrayList<NodeComponet> users;
+	private long createdTime;
 	private String id;
+	
 
-	public Group(String id) {
+	public Group(String id) 
+	{
+		users = new ArrayList<NodeComponet>();
+		createdTime = System.currentTimeMillis();
 		this.id = id;
+		
 	}
 
-	public String getId() {
+	public String toString() 
+	{
 		return id;
 	}
 
-	public void addUser(NodeComponet u) {
-		user.add(u);
-	}
-
-	public List<NodeComponet> getUser() {
-		return user;
+	public void add(NodeComponet u) 
+	{
+		users.add(u);
 	}
 	
 	public Group getGroup(String group)
@@ -38,13 +42,17 @@ public class Group implements NodeComponet
 			return null;
 		}
 	}
+	
 	public void accept(Visitor visitor) 
 	{
-		visitor.visit(this);
-		for (NodeComponet visit : user) 
+		visitor.visitGroup(this);
+		for (NodeComponet visit : users) 
 		{
 			visit.accept(visitor);
 		}
 	}
-
+	public long getCreatedTime() 
+	{
+		return createdTime;
+	}
 }

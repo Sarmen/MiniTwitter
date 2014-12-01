@@ -10,11 +10,11 @@ public class CountGroupVisitor implements Visitor
 
 	protected int counter = 0;
 	
-	public void visit(User user) {
+	public void visitUser(User user) {
 		// TODO Auto-generated method stub
 	}
 
-	public void visit(Group group) 
+	public void visitGroup(Group group) 
 	{
 		counter++;
 	}

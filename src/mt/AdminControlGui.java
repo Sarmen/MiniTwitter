@@ -1,14 +1,13 @@
 package mt;
+
 /*
  * Sarmen Khodjasarian
  */
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 
 import java.awt.Color;
 
@@ -19,141 +18,157 @@ import javax.swing.border.LineBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JScrollPane;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreeSelectionModel;
 
-public class AdminControlGui extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8504114242947989148L;
+@SuppressWarnings("serial")
+public class AdminControlGui extends JFrame implements TreeSelectionListener {
+
 	private JTree tree;
+	private Group root;
 	private JTextArea addUserTA;
 	private JTextArea addGroupTA;
-	private String selected;
+	private DefaultMutableTreeNode rootNode;
 	private DefaultMutableTreeNode selectedNode;
-	String newUser;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AdminControlGui window = new AdminControlGui();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args)
+//	{
+//		EventQueue.invokeLater(new Runnable() 
+//		{
+//			public void run() 
+//			{
+//				try 
+//				{
+//					AdminControlGui window = new AdminControlGui();
+//					window.setVisible(true);
+//				} 
+//				catch (Exception e) 
+//				{
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
 	 */
-	public AdminControlGui() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() 
+	public AdminControlGui(Group g) 
 	{
+		root = g;
+		
 		Border border = new LineBorder(Color.BLACK, 1);
 		getContentPane().setBackground(Color.CYAN);
-		setBounds(100, 100, 584, 407);
+		setBounds(100, 100, 584, 430);
 		setTitle("Mini Twitter - Admin Control Panel");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 
-		tree = new JTree();
-		tree.setBounds(6, 7, 244, 354);
-		selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-		if(selectedNode == null)
-			selectedNode = (DefaultMutableTreeNode) tree.getModel().getRoot();
-		
+		rootNode = new DefaultMutableTreeNode(root, true);
+		tree = new JTree(rootNode, true);
+		tree.addTreeSelectionListener(this);
+		tree.setBounds(6, 7, 244, 374);
 		getContentPane().add(tree);
 
 		
 /////////////////////////// TextAreas for AdminControl //////////////////////////////////////////////////////
 		addUserTA = new JTextArea();
+		addUserTA.setText("");
 		addUserTA.setBorder(border);
-		addUserTA.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				addUserTA.setText("");
-			}
-		});
 		addUserTA.setBounds(260, 4, 148, 42);
 		getContentPane().add(addUserTA);
 
 		addGroupTA = new JTextArea();
+		addGroupTA.setText("");
 		addGroupTA.setBounds(260, 64, 148, 42);
 		addGroupTA.setBorder(border);
-		addGroupTA.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				addGroupTA.setText("");
-			}
-		});
+		
 		getContentPane().add(addGroupTA);
 //////////////////////////////////////////////////////////////////////
 		JButton btnAddUser = new JButton("Add User");
-		btnAddUser.setBounds(418, 4, 140, 42);
-		btnAddUser.setBorder(border);
 		btnAddUser.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) 
-			{
-				selectedNode.add((MutableTreeNode) new User(addUserTA.getText()));
-				tree.updateUI();
+			public void mouseClicked(MouseEvent e) {
+				// Check that a group is selected to add the user to
+				if (selectedNode != null && selectedNode.getUserObject() instanceof Group) {
+					// Check that a user with the given id does not already
+					// exist
+					UserVisitor uv = new UserVisitor(addUserTA.getText());
+					root.accept(uv);
+					if (!uv.hasUser()) {
+						addUserNode((Group) selectedNode.getUserObject(), new User(addUserTA.getText()));
+					} 
+					else 
+					{
+						JOptionPane.showMessageDialog(null, "Enter user ID");
+					}
+				} 
+				else 
+				{
+					JOptionPane.showMessageDialog(null, "Select a group to add user to");
+				}
 			}
 		});
+		btnAddUser.setBounds(418, 4, 140, 42);
+		btnAddUser.setBorder(border);
 		getContentPane().add(btnAddUser);
 
 		JButton btnAddGroup = new JButton("Add Group");
-		btnAddGroup.setBounds(418, 64, 140, 42);
-		btnAddGroup.setBorder(border);
-		btnAddUser.addMouseListener(new MouseAdapter() {
+		btnAddGroup.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) 
-			{
-				selectedNode.add((MutableTreeNode) new Group(addGroupTA.getText()));
-				tree.updateUI();
+			public void mouseClicked(MouseEvent e) {
+				//Check that a group is selected to add the user to
+				if(selectedNode != null && selectedNode.getUserObject() instanceof Group) {
+					//Check that a group with the given id does not already exist
+					GroupVisitor gv = new GroupVisitor(addGroupTA.getText());
+					root.accept(gv);
+					if(!gv.hasGroup()) {
+						addGroupNode((Group)selectedNode.getUserObject(), new Group(addGroupTA.getText()));
+					} else {
+						JOptionPane.showMessageDialog(null, "Enter group ID");
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Select a group to add group to");
+				}
 			}
 		});
+		btnAddGroup.setBounds(418, 64, 140, 42);
+		btnAddGroup.setBorder(border);
 		getContentPane().add(btnAddGroup);
 
 		JButton btnOpenUserView = new JButton("Open User View");
-		btnOpenUserView.setBounds(268, 117, 290, 42);
-		btnOpenUserView.setBorder(border);
-		if(selectedNode instanceof User)
-		{
-		User us = (User) selectedNode;
-			SwingUtilities.invokeLater(new Runnable() 
-			{
-				public void run() 
+		btnOpenUserView.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				if(selectedNode != null && selectedNode.getUserObject() instanceof User) 
 				{
-					us.getUser().setVisibility(true);
+					try 
+					{
+						UserGui ugui = new UserGui((User) selectedNode.getUserObject(), root);
+					} 
+					catch (Exception e) 
+					{
+						e.printStackTrace();
+					}
+				} 
+				else 
+				{
+					JOptionPane.showMessageDialog(null, "Select a user to open their view");
 				}
 			}
-		}
+		});
+		btnOpenUserView.setBounds(268, 117, 290, 42);
+		btnOpenUserView.setBorder(border);
 		getContentPane().add(btnOpenUserView);
 // /////////////////////////// Buttons for the 4 counter/////////////////////////////////////////////////////
 
 		JButton btnShowUserTotal = new JButton("Show User Total");
-		btnShowUserTotal.setBounds(268, 248, 140, 42);
+		btnShowUserTotal.setBounds(260, 286, 140, 42);
 		btnShowUserTotal.setBorder(border);
 		btnShowUserTotal.addMouseListener(new MouseAdapter() {
 			@Override
@@ -165,7 +180,7 @@ public class AdminControlGui extends JFrame {
 		getContentPane().add(btnShowUserTotal);
 
 		JButton btnShowGroupTotal = new JButton("Show Group Total");
-		btnShowGroupTotal.setBounds(418, 248, 140, 42);
+		btnShowGroupTotal.setBounds(418, 286, 140, 42);
 		btnShowGroupTotal.setBorder(border);
 		btnShowGroupTotal.addMouseListener(new MouseAdapter() {
 			@Override
@@ -177,7 +192,7 @@ public class AdminControlGui extends JFrame {
 		getContentPane().add(btnShowGroupTotal);
 
 		JButton btnShowMessagesTotal = new JButton("Show Messages Total");
-		btnShowMessagesTotal.setBounds(267, 296, 141, 42);
+		btnShowMessagesTotal.setBounds(260, 339, 141, 42);
 		btnShowMessagesTotal.setBorder(border);
 		btnShowMessagesTotal.addMouseListener(new MouseAdapter() {
 			@Override
@@ -190,9 +205,9 @@ public class AdminControlGui extends JFrame {
 
 		JButton btnShowPositivePercentage = new JButton(
 				"Show Possitive Percentage");
-		btnShowPositivePercentage.setBounds(421, 296, 137, 42);
+		btnShowPositivePercentage.setBounds(421, 339, 137, 42);
 		btnShowPositivePercentage.setBorder(border);
-		btnShowMessagesTotal.addMouseListener(new MouseAdapter() {
+		btnShowPositivePercentage.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JOptionPane.showMessageDialog(null, "% of Postive word is  : "
@@ -200,6 +215,54 @@ public class AdminControlGui extends JFrame {
 			}
 		});
 		getContentPane().add(btnShowPositivePercentage);
+		
+		JButton btnVerifiy = new JButton("User/Group ID Verification");
+		btnVerifiy.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				UpdateVerification uv = new UpdateVerification();
+				root.accept(uv);
+				if(uv.isValid())
+					JOptionPane.showMessageDialog(null, "All User's/Groups are valid");
+				else
+					JOptionPane.showMessageDialog(null, "Not all User's/Groups are valid");
+			}
+			
+		});
+		btnVerifiy.setBounds(268, 170, 290, 33);
+		getContentPane().add(btnVerifiy);
+		
+		JButton btnFindLastUpdateUser = new JButton("Find Last Updated User");
+		btnFindLastUpdateUser.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				JOptionPane.showMessageDialog(null, "Last Updated user is: " + Account.getInstance().getLastUpdated());
+			}
+		});
+		btnFindLastUpdateUser.setBounds(268, 214, 290, 33);
+		getContentPane().add(btnFindLastUpdateUser);
+		
+	}
+
+	private void addUserNode(Group group, User u) 
+	{
+		group.add(u);
+		selectedNode.add(new DefaultMutableTreeNode(u, false));
+		tree.updateUI();
+		
+	}
+	private void addGroupNode(Group superGroup, Group subGroup) 
+	{
+		superGroup.add(subGroup);
+		selectedNode.add(new DefaultMutableTreeNode(subGroup, true));
+		tree.updateUI();
+	}
+	public void valueChanged(TreeSelectionEvent arg0) 
+	{
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+		selectedNode = node;
 		
 	}
 }

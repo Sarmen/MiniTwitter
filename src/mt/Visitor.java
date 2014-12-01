@@ -6,6 +6,6 @@ package mt;
  */
 public interface Visitor 
 {
-	public void visit(User user);
-	public void visit(Group group);
+	public void visitUser(User user);
+	public void visitGroup(Group group);
 }

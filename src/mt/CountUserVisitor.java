@@ -10,7 +10,7 @@ public class CountUserVisitor implements Visitor
 {
 	protected int counter = 0;
 
-	public void visit(User user) 
+	public void visitUser(User user) 
 	{
 		counter ++;
 	}
@@ -19,7 +19,7 @@ public class CountUserVisitor implements Visitor
 		return counter;
 	}
 
-	public void visit(Group group) {
+	public void visitGroup(Group group) {
 		// TODO Auto-generated method stub
 	}
 

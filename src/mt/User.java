@@ -4,27 +4,30 @@ package mt;
  */
 import java.util.*;
 
+import javax.swing.DefaultListModel;
 
-public class User extends Observable implements Observer
+
+public class User extends Observable implements Observer, NodeComponet
 {
 	private String user;
 	private List<User> followers;
 	private List<User> following;
 	private List<String> newsFeed;
 	private int tweetCounter;
-	private List<String> msg;
+	private String msg;
+	private long createdTime;
+	private long lastUpdateTime;
 
 	public User(String user)
 	{
 		this.user = user;
+		createdTime = System.currentTimeMillis();
+		lastUpdateTime = createdTime;
 	}
-	public User(String id, List<String> msg)
+	public User(String id, String msg)
 	{
 		this.user = id;
 		this.msg = msg;
-	}
-	public User() {
-		// TODO Auto-generated constructor stub
 	}
 	public void setUser(String user)
 	{
@@ -33,7 +36,7 @@ public class User extends Observable implements Observer
 	/*
 	 * gets the tweeted message
 	 */
-	public List<String> getTweet()
+	public String getTweet()
 	{
 		return msg;
 	}
@@ -81,11 +84,12 @@ public class User extends Observable implements Observer
 		following.add(u);
 		System.out.println("Following " + u.toString());
 	}
+	
 	/*
 	 * lets the user tweet, sets the tweet and counts it, 
 	 * uses the observer class methods to notify the observers
 	 */
-	public void tweet(List<String> msg) 
+	public void tweet(String msg) 
 	{
 		this.msg = msg;
 		tweetCounter++;
@@ -108,6 +112,7 @@ public class User extends Observable implements Observer
 		{
 			newsFeed.add(((User) arg0).getUser() + ": " + arg1);
 		}
+		lastUpdateTime = System.currentTimeMillis();
 	}	
 	/*
 	 * Composite Pattern. Returns the User.
@@ -123,15 +128,27 @@ public class User extends Observable implements Observer
 			return null;
 		}
 	}
-	
-	public void accpet(Visitor visitor) 
+	public List<User> getCurrentlyFollowingListModel()
 	{
-		visitor.visit(this);
+		return following;
 	}
 	
 	public String toString()
 	{
 		return getUser();
+	}
+	
+	public long getCreatedTime()
+	{
+		return createdTime;
+	}
+	public long getLastUpdatedTime()
+	{
+		return lastUpdateTime;
+	}
+	public void accept(Visitor visitor) 
+	{
+		visitor.visitUser(this);
 	}
 
 }

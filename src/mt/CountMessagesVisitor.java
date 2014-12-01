@@ -1,5 +1,4 @@
 package mt;
-
 /*
  * Sarmen Khodjasarian
  * 
@@ -11,12 +10,12 @@ public class CountMessagesVisitor implements Visitor
 
 	protected int tweetCounter = 0;
 	
-	public void visit(User user) 
+	public void visitUser(User user) 
 	{
 		tweetCounter += user.getTweetCount();
 	}
 
-	public void visit(Group group) {
+	public void visitGroup(Group group) {
 		// TODO Auto-generated method stub
 	}
 	

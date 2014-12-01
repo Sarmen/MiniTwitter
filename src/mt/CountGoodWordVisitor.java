@@ -1,4 +1,5 @@
 package mt;
+
 /*
  * Sarmen Khodjasarian
  */
@@ -10,13 +11,14 @@ import java.util.List;
 public class CountGoodWordVisitor implements Visitor 
 {
 	protected String [] goodWord = {"good", "great", "love"};
+	List<String> tweetsTemp;
 	protected int totalWordCounter = 0;
 	protected int goodWordCounter = 0;
 	
 	
-	public void visit(User user) 
+	public void visitUser(User user) 
 	{
-		List<String> tweetsTemp = user.getTweet();
+		tweetsTemp.add(user.getTweet());
 		for(String s: tweetsTemp)
 		{
 			String [] words = s.split(" ");
@@ -36,7 +38,7 @@ public class CountGoodWordVisitor implements Visitor
 
 	}
 
-	public void visit(Group group) {
+	public void visitGroup(Group group) {
 		// TODO Auto-generated method stub
 
 	}
