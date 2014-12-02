@@ -31,18 +31,6 @@ public class Group implements NodeComponet
 		users.add(u);
 	}
 	
-	public Group getGroup(String group)
-	{
-		if(id.equals(group))
-		{
-			return this;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
 	public void accept(Visitor visitor) 
 	{
 		visitor.visitGroup(this);

@@ -19,7 +19,7 @@ public class UserVisitor implements Visitor
 		return user;
 	}
 
-	public boolean hasUser() 
+	public boolean userExists() 
 	{
 		return userExists;
 	}

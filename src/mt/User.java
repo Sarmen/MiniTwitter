@@ -117,17 +117,6 @@ public class User extends Observable implements Observer, NodeComponet
 	/*
 	 * Composite Pattern. Returns the User.
 	 */
-	public User getUser(String id) 
-	{
-		if (id.equals(id)) 
-		{
-			return this;
-		} 
-		else 
-		{
-			return null;
-		}
-	}
 	public List<User> getCurrentlyFollowingListModel()
 	{
 		return following;

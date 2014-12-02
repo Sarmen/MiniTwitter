@@ -91,6 +91,4 @@ public class Account
 		root.accept(cgwv);
 		return cgwv.returnGoodWordPercent();
 	}
-	
-	
 }

@@ -29,29 +29,6 @@ public class UserGui extends JFrame implements Observer
 	private JList listCurrentFollowers;
 	private JList listNewsFeed;
 	private JLabel lblLastUpdatedTime;
-	
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					UserGui window = new UserGui();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-//
-//	/**
-//	 * Create the application.
-//	 */
-//	public UserGui() {
-//		initialize();
-//	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -91,7 +68,7 @@ public class UserGui extends JFrame implements Observer
 			public void mouseClicked(MouseEvent e) {
 				UserVisitor v = new UserVisitor(taUserId.getText());
 				root.accept(v);
-				if(v.hasUser())
+				if(v.userExists())
 				{
 					user.follow(v.getUser());
 					listCurrentFollowers.updateUI();

@@ -34,28 +34,6 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 	private DefaultMutableTreeNode selectedNode;
 
 	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args)
-//	{
-//		EventQueue.invokeLater(new Runnable() 
-//		{
-//			public void run() 
-//			{
-//				try 
-//				{
-//					AdminControlGui window = new AdminControlGui();
-//					window.setVisible(true);
-//				} 
-//				catch (Exception e) 
-//				{
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
 	 * Create the application.
 	 */
 	public AdminControlGui(Group g) 
@@ -75,8 +53,7 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 		tree.setBounds(6, 7, 244, 374);
 		getContentPane().add(tree);
 
-		
-/////////////////////////// TextAreas for AdminControl //////////////////////////////////////////////////////
+/////////////////////////// TextAreas for AdminControl //////////////
 		addUserTA = new JTextArea();
 		addUserTA.setText("");
 		addUserTA.setBorder(border);
@@ -87,20 +64,17 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 		addGroupTA.setText("");
 		addGroupTA.setBounds(260, 64, 148, 42);
 		addGroupTA.setBorder(border);
-		
 		getContentPane().add(addGroupTA);
 //////////////////////////////////////////////////////////////////////
 		JButton btnAddUser = new JButton("Add User");
 		btnAddUser.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
-				// Check that a group is selected to add the user to
 				if (selectedNode != null && selectedNode.getUserObject() instanceof Group) {
-					// Check that a user with the given id does not already
-					// exist
+		
 					UserVisitor uv = new UserVisitor(addUserTA.getText());
 					root.accept(uv);
-					if (!uv.hasUser()) {
+					if (!uv.userExists()) 
+					{
 						addUserNode((Group) selectedNode.getUserObject(), new User(addUserTA.getText()));
 					} 
 					else 
@@ -120,19 +94,23 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 
 		JButton btnAddGroup = new JButton("Add Group");
 		btnAddGroup.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
-				//Check that a group is selected to add the user to
-				if(selectedNode != null && selectedNode.getUserObject() instanceof Group) {
-					//Check that a group with the given id does not already exist
+				
+				if(selectedNode != null && selectedNode.getUserObject() instanceof Group) 
+				{
 					GroupVisitor gv = new GroupVisitor(addGroupTA.getText());
 					root.accept(gv);
-					if(!gv.hasGroup()) {
+					if(!gv.groupExists()) 
+					{
 						addGroupNode((Group)selectedNode.getUserObject(), new Group(addGroupTA.getText()));
-					} else {
+					} 
+					else 
+					{
 						JOptionPane.showMessageDialog(null, "Enter group ID");
 					}
-				} else {
+				} 
+				else 
+				{
 					JOptionPane.showMessageDialog(null, "Select a group to add group to");
 				}
 			}
@@ -245,7 +223,11 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 		getContentPane().add(btnFindLastUpdateUser);
 		
 	}
-
+	
+	/*
+	 * add user noded to the DefaultMutabletree to be able to add to the tree ui
+	 * and adds it to the group list
+	 */
 	private void addUserNode(Group group, User u) 
 	{
 		group.add(u);
@@ -253,10 +235,14 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 		tree.updateUI();
 		
 	}
-	private void addGroupNode(Group superGroup, Group subGroup) 
+	/*
+	 * add sub group noded to the DefaultMutabletree to be able to add to the tree ui
+	 * and adds it to the super group list
+	 */
+	private void addGroupNode(Group superG, Group subG) 
 	{
-		superGroup.add(subGroup);
-		selectedNode.add(new DefaultMutableTreeNode(subGroup, true));
+		superG.add(subG);
+		selectedNode.add(new DefaultMutableTreeNode(subG, true));
 		tree.updateUI();
 	}
 	public void valueChanged(TreeSelectionEvent arg0) 

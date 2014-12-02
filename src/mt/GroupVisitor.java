@@ -1,6 +1,7 @@
 package mt;
 
-public class GroupVisitor implements Visitor {
+public class GroupVisitor implements Visitor 
+{
 	private String id;
 	private Group group;
 	private boolean groupExists;
@@ -17,13 +18,13 @@ public class GroupVisitor implements Visitor {
 		return group;
 	}
 
-	public boolean hasGroup() 
+	public boolean groupExists() 
 	{
 		return groupExists;
 	}
 
-	public void visitUser(User user) {
-		// Checking for group not user - do nothing
+	public void visitUser(User user) 
+	{
 	}
 
 	public void visitGroup(Group group) 
