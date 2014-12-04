@@ -2,7 +2,6 @@ package mt;
 
 public class UserVisitor implements Visitor 
 {
-
 	private String id;
 	private User user;
 	private boolean userExists;
@@ -35,7 +34,5 @@ public class UserVisitor implements Visitor
 
 	public void visitGroup(Group group) {
 		// TODO Auto-generated method stub
-
 	}
-
 }

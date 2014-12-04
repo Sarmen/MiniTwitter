@@ -15,7 +15,6 @@ public class CountGoodWordVisitor implements Visitor
 	protected int totalWordCounter = 0;
 	protected int goodWordCounter = 0;
 	
-	
 	public void visitUser(User user) 
 	{
 		tweetsTemp.add(user.getTweet());
@@ -35,12 +34,10 @@ public class CountGoodWordVisitor implements Visitor
 				}
 			}
 		}
-
 	}
 
 	public void visitGroup(Group group) {
 		// TODO Auto-generated method stub
-
 	}
 	
 	public int returnGoodWordPercent()
@@ -48,5 +45,4 @@ public class CountGoodWordVisitor implements Visitor
 		int result = goodWordCounter/totalWordCounter;
 		return result;
 	}
-
 }

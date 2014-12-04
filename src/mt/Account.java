@@ -11,6 +11,7 @@ public class Account
 	private Group root;
 	public JFrame frame;
 	
+	// constuctor makes a new group called root to be default 
 	private Account()
 	{
 		root = new Group("Root");

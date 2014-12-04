@@ -32,6 +32,8 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 	private JTextArea addGroupTA;
 	private DefaultMutableTreeNode rootNode;
 	private DefaultMutableTreeNode selectedNode;
+	private JButton btnAddUser;
+	private JButton btnAddGroup;
 
 	/**
 	 * Create the application.
@@ -41,6 +43,7 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 		root = g;
 		
 		Border border = new LineBorder(Color.BLACK, 1);
+		
 		getContentPane().setBackground(Color.CYAN);
 		setBounds(100, 100, 584, 430);
 		setTitle("Mini Twitter - Admin Control Panel");
@@ -50,10 +53,10 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 		rootNode = new DefaultMutableTreeNode(root, true);
 		tree = new JTree(rootNode, true);
 		tree.addTreeSelectionListener(this);
+		tree.setBorder(border);
 		tree.setBounds(6, 7, 244, 374);
 		getContentPane().add(tree);
 
-/////////////////////////// TextAreas for AdminControl //////////////
 		addUserTA = new JTextArea();
 		addUserTA.setText("");
 		addUserTA.setBorder(border);
@@ -65,8 +68,8 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 		addGroupTA.setBounds(260, 64, 148, 42);
 		addGroupTA.setBorder(border);
 		getContentPane().add(addGroupTA);
-//////////////////////////////////////////////////////////////////////
-		JButton btnAddUser = new JButton("Add User");
+
+		btnAddUser = new JButton("Add User");
 		btnAddUser.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (selectedNode != null && selectedNode.getUserObject() instanceof Group) {
@@ -92,7 +95,7 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 		btnAddUser.setBorder(border);
 		getContentPane().add(btnAddUser);
 
-		JButton btnAddGroup = new JButton("Add Group");
+		btnAddGroup = new JButton("Add Group");
 		btnAddGroup.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				
@@ -209,6 +212,7 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 			
 		});
 		btnVerifiy.setBounds(268, 170, 290, 33);
+		btnVerifiy.setBorder(border);
 		getContentPane().add(btnVerifiy);
 		
 		JButton btnFindLastUpdateUser = new JButton("Find Last Updated User");
@@ -220,6 +224,7 @@ public class AdminControlGui extends JFrame implements TreeSelectionListener {
 			}
 		});
 		btnFindLastUpdateUser.setBounds(268, 214, 290, 33);
+		btnFindLastUpdateUser.setBorder(border);
 		getContentPane().add(btnFindLastUpdateUser);
 		
 	}

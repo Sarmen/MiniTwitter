@@ -4,8 +4,6 @@ package mt;
  */
 import java.util.*;
 
-import javax.swing.DefaultListModel;
-
 
 public class User extends Observable implements Observer, NodeComponet
 {
@@ -29,10 +27,7 @@ public class User extends Observable implements Observer, NodeComponet
 		this.user = id;
 		this.msg = msg;
 	}
-	public void setUser(String user)
-	{
-		this.user = user;
-	}
+
 	/*
 	 * gets the tweeted message
 	 */
@@ -114,27 +109,31 @@ public class User extends Observable implements Observer, NodeComponet
 		}
 		lastUpdateTime = System.currentTimeMillis();
 	}	
-	/*
-	 * Composite Pattern. Returns the User.
-	 */
-	public List<User> getCurrentlyFollowingListModel()
+
+	public List<User> FollowingListModel()
 	{
 		return following;
 	}
 	
+	// to string returns user
 	public String toString()
 	{
 		return getUser();
 	}
 	
+	// getter for created time
 	public long getCreatedTime()
 	{
 		return createdTime;
 	}
+	
+	//getter for last updated time
 	public long getLastUpdatedTime()
 	{
 		return lastUpdateTime;
 	}
+	
+	
 	public void accept(Visitor visitor) 
 	{
 		visitor.visitUser(this);

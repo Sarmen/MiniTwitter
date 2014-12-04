@@ -1,5 +1,7 @@
 package mt;
-
+/*
+ * Visitor pattern that starts off false, when it exists it sets it to true
+ */
 public class GroupVisitor implements Visitor 
 {
 	private String id;

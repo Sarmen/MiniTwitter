@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.ListModel;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -35,6 +37,8 @@ public class UserGui extends JFrame implements Observer
 	 */
 	UserGui(User u, Group g) 
 	{
+		Border border = new LineBorder(Color.BLACK, 1);
+		Border border2 = new LineBorder(Color.WHITE, 2);
 		user = u;
 		root = g;
 		frame = new JFrame();
@@ -46,19 +50,23 @@ public class UserGui extends JFrame implements Observer
 		taUserId = new JTextArea();
 		taUserId.setText("User ID");
 		taUserId.setBounds(14, 11, 175, 38);
+		taUserId.setBorder(border);
 		frame.getContentPane().add(taUserId);
 		
 		taTweetMessage = new JTextArea();
 		taTweetMessage.setText("Tweet Message");
 		taTweetMessage.setBounds(14, 213, 175, 38);
+		taTweetMessage.setBorder(border);
 		frame.getContentPane().add(taTweetMessage);
 		
-		listCurrentFollowers = new JList((ListModel) user.getCurrentlyFollowingListModel());
+		listCurrentFollowers = new JList<String>();
 		listCurrentFollowers.setBounds(14, 60, 390, 140);
+		listCurrentFollowers.setBorder(border);
 		frame.getContentPane().add(listCurrentFollowers);
 		
-		listNewsFeed = new JList();
+		listNewsFeed = new JList<String>();
 		listNewsFeed.setBounds(14, 262, 391, 140);
+		listNewsFeed.setBorder(border);
 		frame.getContentPane().add(listNewsFeed);
 		
 		
@@ -76,29 +84,40 @@ public class UserGui extends JFrame implements Observer
 			}
 		});
 		btnFollowUser.setBounds(199, 11, 205, 38);
+		btnFollowUser.setBorder(border);
 		frame.getContentPane().add(btnFollowUser);
 		
 		
 		JButton btnPostTweet = new JButton("Post Tweet");
-		user.tweet(taTweetMessage.getText());
+		btnPostTweet.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.tweet(taTweetMessage.getText());
+			}
+		});
 		btnPostTweet.setBounds(199, 213, 205, 38);
+		btnPostTweet.setBorder(border);
 		frame.getContentPane().add(btnPostTweet);
 		
 		
-		JLabel lblCreatedText = new JLabel("Created Time:");
-		lblCreatedText.setBounds(14, 423, 93, 21);
+		JLabel lblCreatedText = new JLabel("     Created Time:");
+		lblCreatedText.setBounds(14, 423, 138, 20);
+		lblCreatedText.setBorder(border2);
 		frame.getContentPane().add(lblCreatedText);
 		
-		JLabel lblCreationTime = new JLabel(((Long)user.getCreatedTime()).toString());
-		lblCreationTime.setBounds(137, 425, 230, 16);
+		JLabel lblCreationTime = new JLabel("   0");
+		lblCreationTime.setBounds(162, 423, 205, 20);
+		lblCreationTime.setBorder(border2);
 		frame.getContentPane().add(lblCreationTime);
 		
-		JLabel lblLastUpdatedTimeTxt = new JLabel("Last Updated Time:");
-		lblLastUpdatedTimeTxt.setBounds(14, 467, 93, 14);
+		JLabel lblLastUpdatedTimeTxt = new JLabel("   Last Updated Time:");
+		lblLastUpdatedTimeTxt.setBounds(14, 455, 138, 20);
+		lblLastUpdatedTimeTxt.setBorder(border2);
 		frame.getContentPane().add(lblLastUpdatedTimeTxt);
 		
-		lblLastUpdatedTime = new JLabel(((Long)user.getLastUpdatedTime()).toString());
-		lblLastUpdatedTime.setBounds(137, 466, 230, 16);
+		lblLastUpdatedTime = new JLabel("   0");
+		lblLastUpdatedTime.setBounds(162, 457, 205, 20);
+		lblLastUpdatedTime.setBorder(border2);
 		frame.getContentPane().add(lblLastUpdatedTime);
 	}
 
@@ -106,6 +125,5 @@ public class UserGui extends JFrame implements Observer
 	{
 		lblLastUpdatedTime.setText(((Long)user.getLastUpdatedTime()).toString());
 		lblLastUpdatedTime.updateUI();
-		listNewsFeed.updateUI();
 	}
 }
